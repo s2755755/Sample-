@@ -1,0 +1,65 @@
+import java.util.Random;
+
+class Fighter {
+    String name;
+
+    public Fighter(String name) {
+        this.name = name;
+    }
+
+    public String attack() {
+        return name + " наносит удар!";
+    }
+}
+
+class Monster {
+    String name;
+    int health;
+
+    public Monster(String name, int health) {
+        this.name = name;
+        this.health = health;
+    }
+
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health < 0) {
+            health = 0; // предотвращаем отрицательное здоровье
+        }
+    }
+}
+
+    class BattleSimulation {
+    public static void battle(Fighter fighter, Monster monster) {
+        System.out.println("Бой начинается! " + fighter.name + " против " + monster.name + "!");
+
+        Random random = new Random();
+
+        while (monster.isAlive()) {
+            // Атака бойца
+            System.out.println(fighter.attack());
+
+            // Случайный урон
+            int damage = random.nextInt(11) + 5; // генерирует случайное число от 5 до 15
+            monster.takeDamage(damage);
+
+            if (!monster.isAlive()) {
+                System.out.println(monster.name + " погиб!");
+                break;
+            }
+
+            // Сообщение о состоянии монстра
+            System.out.println(monster.name + " еще жив, его здоровье: " + monster.health + "\n");
+        }
+    }
+
+    public static void main(String[] args) {
+        Fighter fighter = new Fighter("Боец");
+        Monster monster = new Monster("Монстр", 50);
+        battle(fighter, monster);
+    }
+}
